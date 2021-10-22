@@ -21,9 +21,9 @@
         </style>
     </head>
     <body>
-    <a href="{{ URL::previous() }}" style="color: chocolate; font-size: 40px"><< Новости <<</a>
+    <a href="{{ route('news_list') }}" style="color: chocolate; font-size: 40px"><< Новости <<</a>
     <h1>{{$news->title}}</h1>
-    <p>Text: {{$news->text}}</p>
     <p style="color: darkred; font-size: 13px">{{ $news->published_at }}</p>
+    <p>{{$news->text}}</p>
     </body>
 </html>
