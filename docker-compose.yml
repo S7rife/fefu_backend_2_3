@@ -53,7 +53,7 @@ services:
         ports:
             - "${PGADMIN_EXTERNAL_PORT}:80"
         volumes:
-            - '/var/lib/pgadmin'
+            - 'pgadmin-data:/var/lib/pgadmin'
         networks:
             - sail
     redis:
@@ -103,3 +103,4 @@ volumes:
         driver: local
     sailmeilisearch:
         driver: local
+    pgadmin-data:
