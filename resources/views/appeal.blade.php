@@ -47,7 +47,7 @@
 
             <div>
                 <label>Phone</label><br>
-                <input class="bordered" name="phone" type="text" value="{{ request()->isMethod('post') ? old('phone') : '' }}" maxlength="11" size="20">
+                <input class="bordered" name="phone" type="tel" value="{{ request()->isMethod('post') ? old('phone') : '' }}" maxlength="11" size="20">
                 @if(isset($errors['phone']))
                     <p class="error">❌{{ $errors['phone'] }}❌</p>
                 @endif
@@ -55,7 +55,7 @@
 
             <div>
                 <label>Email</label><br>
-                <input class="bordered" name="email" type="text" value="{{ request()->isMethod('post') ? old('email') : '' }}" maxlength="20" size="20">
+                <input class="bordered" name="email" type="email" value="{{ request()->isMethod('post') ? old('email') : '' }}" maxlength="100" size="20">
                 @if(isset($errors['email']))
                     <p class="error">❌{{ $errors['email'] }}❌</p>
                 @endif

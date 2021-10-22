@@ -33,14 +33,6 @@ class AppealController extends Controller
                 $errors['message'] = 'Well, write at least something!';
             }
 
-            if (0 < strlen($phone) && strlen($phone) < 11) {
-                $errors['phone'] = 'You seem to be missing numbers...';
-            }
-
-            if ($email && (!strpos($email, '@') || !strpos($email, '.'))) {
-                $errors['email'] = "There are legends that every email should contain '@' and '.'";
-            }
-
             if ($phone === null && $email === null) {
                 $errors['contacts'] = 'We just need to contact you somehow';
             }
