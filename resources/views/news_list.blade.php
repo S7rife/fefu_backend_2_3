@@ -26,11 +26,10 @@
         @foreach ($news as $one_news)
             <div style="padding: 20px">
                 <a href="{{ route('news_item', ['slug'=> $one_news->slug]) }}" style="color: chocolate">{{ $one_news->title }}</a>
+                <p style="color: darkred; font-size: 13px">{{ $one_news->published_at }}</p>
                 @if ($one_news->description !== null)
                     <p> {{ $one_news->description }}</p>
                 @endif
-                <p style="color: darkred; font-size: 13px">{{ $one_news->published_at }}</p>
-                <p style="color: #533737; font-size: 13px">{{ $one_news->id }}</p>
             </div>
         @endforeach
     {{ $news->links() }}
