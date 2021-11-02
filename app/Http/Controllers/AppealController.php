@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AppealPostRequest;
 use App\Models\Appeal;
-use App\Sanitizers\DigitsOnlySanitizer;
+use App\Sanitizers\PhoneSanitizer;
 
 class AppealController extends Controller
 {
@@ -30,11 +30,11 @@ class AppealController extends Controller
         $appeal->patronymic = $validated['patronymic'];
         $appeal->age = $validated['age'];
         $appeal->gender = $validated['gender'];
-        $appeal->phone = DigitsOnlySanitizer::sanitize($validated['phone']);
+        $appeal->phone = PhoneSanitizer::sanitize($validated['phone']);
         $appeal->email = $validated['email'];
         $appeal->message = $validated['message'];
         $appeal->save();
 
-        return redirect()->route('appeal')->with('status', '✅(ー○ー)＝ Appeal sent is successfully!＝(ー○ー)✅');
+        return redirect()->route('appeal_stored')->with('status', '✅(ー○ー)＝ Appeal sent is successfully!＝(ー○ー)✅');
     }
 }

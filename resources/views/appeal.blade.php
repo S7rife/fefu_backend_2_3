@@ -42,7 +42,7 @@
                 </ul>
             </div>
         @endif
-        <form method="POST" action="{{ route('appeal') }}">
+        <form method="POST" action="{{ route('appeal_stored') }}">
             @csrf
             <div>
                 <label>Name</label><br>
@@ -66,12 +66,12 @@
 
             <div>
                 <label>Phone</label><br>
-                <input class="bordered" name="phone" type="tel" value="{{ old('phone') }}" size="20">
+                <input class="bordered" name="phone" type="text" value="{{ old('phone') }}" size="20">
             </div>
 
             <div>
                 <label>Email</label><br>
-                <input class="bordered" name="email" type="email" value="{{ old('email') }}" size="20">
+                <input class="bordered" name="email" type="text" value="{{ old('email') }}" size="20">
             </div>
 
             <div>

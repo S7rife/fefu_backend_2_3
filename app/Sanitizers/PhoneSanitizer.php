@@ -4,7 +4,7 @@ namespace App\Sanitizers;
 
 use function preg_replace;
 
-class DigitsOnlySanitizer
+class PhoneSanitizer
 {
     public static function sanitize(?string $value): ?string
     {
