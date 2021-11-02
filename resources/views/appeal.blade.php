@@ -32,45 +32,59 @@
 <body>
     <div>
         <h2>Send an appeal</h2>
-        @if($success)
-            <p style="color: #0b880b">✅(ー○ー)＝ Appeal sent is successfully!＝(ー○ー)✅</p>
+            <p style="color: #0b880b">{{ session('status') }}</p>
+        @if ($errors->any())
+            <div class="error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
-        <form method="POST" action="{{ route('appeal') }}">
+        <form method="POST" action="{{ route('appeal_stored') }}">
             @csrf
             <div>
                 <label>Name</label><br>
-                <input class="bordered" name="name" type="text" value="{{ request()->isMethod('post') ? old('name') : '' }}" maxlength="20" size="20">
-                @if(isset($errors['name']))
-                    <p class="error">❌{{ $errors['name'] }}❌</p>
-                @endif
+                <input class="bordered" name="name" type="text" value="{{ old('name') }}" size="20">
+            </div>
+
+            <div>
+                <label>Surname</label><br>
+                <input class="bordered" name="surname" type="text" value="{{ old('surname') }}" size="20">
+            </div>
+
+            <div>
+                <label>Patronymic</label><br>
+                <input class="bordered" name="patronymic" type="text" value="{{ old('patronymic') }}" size="20">
+            </div>
+
+            <div>
+                <label>Age</label><br>
+                <input class="bordered" name="age" type="text" value="{{ old('age') }}" size="20">
             </div>
 
             <div>
                 <label>Phone</label><br>
-                <input class="bordered" name="phone" type="tel" value="{{ request()->isMethod('post') ? old('phone') : '' }}" maxlength="11" size="20">
-                @if(isset($errors['phone']))
-                    <p class="error">❌{{ $errors['phone'] }}❌</p>
-                @endif
+                <input class="bordered" name="phone" type="text" value="{{ old('phone') }}" size="20">
             </div>
 
             <div>
                 <label>Email</label><br>
-                <input class="bordered" name="email" type="email" value="{{ request()->isMethod('post') ? old('email') : '' }}" maxlength="100" size="20">
-                @if(isset($errors['email']))
-                    <p class="error">❌{{ $errors['email'] }}❌</p>
-                @endif
+                <input class="bordered" name="email" type="text" value="{{ old('email') }}" size="20">
+            </div>
 
-                @if(isset($errors['contacts']))
-                    <p class="error">❌{{ $errors['contacts'] }}❌</p>
-                @endif
+            <div>
+                <label>Gender</label>
+                <select name="gender">
+                    <option value="0" {{ old('gender') == 0 ? 'selected="selected"' : ''}}>Male</option>
+                    <option value="1" {{ old('gender') == 1 ? 'selected="selected"' : ''}}>Female</option>
+                </select>
             </div>
 
             <div>
                 <label>Message</label><br>
-                <textarea class="bordered" name="message" maxlength="100" rows="10">{{ request()->isMethod('post') ? old('message') : '' }}</textarea>
-                @if(isset($errors['message']))
-                    <p class="error">❌{{ $errors['message'] }}❌</p>
-                @endif
+                <textarea class="bordered" name="message" rows="10">{{ old('message') }}</textarea>
             </div>
 
             <div>
