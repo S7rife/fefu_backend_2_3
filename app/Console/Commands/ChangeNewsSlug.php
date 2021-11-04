@@ -42,11 +42,13 @@ class ChangeNewsSlug extends Command
     {
         $oldSlug = $this->argument('oldSlug');
         $newSlug = $this->argument('newSlug');
-        $checkSame = Redirect::whereColumn('old_slug', 'new_slug')->first();
+        $checkSame = Redirect::where('old_slug', 'news/'.$oldSlug)
+            ->where('new_slug', 'news/'.$newSlug)
+            ->first();
 
         if ($checkSame !== null)
         {
-            $this->error("THERE ARE FAULTY ENTRIES IN THE TABLE");
+            $this->error("SUCH AN ENTRY ALREADY EXISTS");
             return 1;
         }
 
@@ -64,7 +66,7 @@ class ChangeNewsSlug extends Command
         }
 
         DB::transaction(function () use ($news, $newSlug) {
-            Redirect::where('old_slug', $newSlug)->delete();
+            Redirect::where('old_slug', 'news/'.$newSlug)->delete();
             $news->slug = $newSlug;
             $news->save();
         });

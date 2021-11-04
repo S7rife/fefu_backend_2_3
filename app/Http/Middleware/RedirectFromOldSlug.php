@@ -17,14 +17,14 @@ class RedirectFromOldSlug
      */
     public function handle(Request $request, Closure $next)
     {
-        $url = str_replace('news/', '', $request->path());
+        $url = $request->path();
 
         $redirect = Redirect::where('old_slug', $url)
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->first();
 
-        if ($redirect !== null)
+        while ($redirect !== null)
         {
             $redirect2 = Redirect::where('old_slug', $redirect->new_slug)
                 ->where('created_at', '>', $redirect->created_at)
@@ -33,9 +33,9 @@ class RedirectFromOldSlug
                 ->first();
             if ($redirect2 !== null)
             {
-                return redirect()->route('news_item', ['slug' => $redirect2->new_slug]);
+                return redirect($redirect2->new_slug);
             }
-            return redirect()->route('news_item', ['slug' => $redirect->new_slug]);
+            return redirect($redirect->new_slug);
         }
         return $next($request);
     }
