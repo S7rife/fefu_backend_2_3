@@ -42,8 +42,8 @@ class ChangeNewsSlug extends Command
     {
         $oldSlug = $this->argument('oldSlug');
         $newSlug = $this->argument('newSlug');
-        $checkSame = Redirect::where('old_slug', 'news/'.$oldSlug)
-            ->where('new_slug', 'news/'.$newSlug)
+        $checkSame = Redirect::where('old_slug', route('news_item', ['slug' => $oldSlug], false))
+            ->where('new_slug', route('news_item', ['slug' => $newSlug], false))
             ->first();
 
         if ($checkSame !== null)
@@ -66,7 +66,7 @@ class ChangeNewsSlug extends Command
         }
 
         DB::transaction(function () use ($news, $newSlug) {
-            Redirect::where('old_slug', 'news/'.$newSlug)->delete();
+            Redirect::where('old_slug', route('news_item', ['slug' => $newSlug], false))->delete();
             $news->slug = $newSlug;
             $news->save();
         });

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $published_at
- * @property string $description
+ * @property string|null $description
  * @property string $text
  */
 class News extends Model
@@ -38,8 +38,8 @@ class News extends Model
             $newSlug = $this->slug;
 
             $redirect = new Redirect();
-            $redirect->old_slug = 'news/'.$oldSlug;
-            $redirect->new_slug = 'news/'.$newSlug;
+            $redirect->old_slug = route('news_item', ['slug' => $oldSlug], false);
+            $redirect->new_slug = route('news_item', ['slug' => $newSlug], false);
             $redirect->save();
         }
         return parent::save($options);

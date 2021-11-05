@@ -17,25 +17,24 @@ class RedirectFromOldSlug
      */
     public function handle(Request $request, Closure $next)
     {
-        $url = $request->path();
-
-        $redirect = Redirect::where('old_slug', $url)
+        $redirect = Redirect::where('old_slug', '/' . $request->path())
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->first();
 
+        $slug = null;
         while ($redirect !== null)
         {
-            $redirect2 = Redirect::where('old_slug', $redirect->new_slug)
+            echo $slug = $redirect->new_slug;
+            $redirect = Redirect::where('old_slug', $slug)
                 ->where('created_at', '>', $redirect->created_at)
                 ->orderByDesc('created_at')
                 ->orderByDesc('id')
                 ->first();
-            if ($redirect2 !== null)
-            {
-                return redirect($redirect2->new_slug);
-            }
-            return redirect($redirect->new_slug);
+        }
+        if ($slug)
+        {
+            return redirect($slug);
         }
         return $next($request);
     }
