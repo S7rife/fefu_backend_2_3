@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppealController;
 use App\Http\Controllers\NewsController;
+use App\Http\Middleware\AppealHint;
 use App\Models\News;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +23,5 @@ Route::get('/', function () {
 Route::get('/news', [NewsController::class, 'getList'])->name('news_list');
 Route::get('/news/{slug}', [NewsController::class, 'getDetails'])->name('news_item');
 
-Route::get('/appeal', [AppealController::class, 'create'])->name('appeal');
-Route::post('/appeal', [AppealController::class, 'store'])->name('appeal_stored');
+Route::get('/appeal', [AppealController::class, 'create'])->name('appeal')->withoutMiddleware([AppealHint::class]);
+Route::post('/appeal', [AppealController::class, 'store'])->name('appeal_stored')->withoutMiddleware([AppealHint::class]);

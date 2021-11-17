@@ -21,6 +21,7 @@
         </style>
     </head>
     <body>
+    @includeWhen(session('show_hint'), 'components.hint_layout')
     <a href="{{ route('news_list') }}" style="color: chocolate; font-size: 40px"><< Новости <<</a>
     <h1>{{$news->title}}</h1>
     <p style="color: darkred; font-size: 13px">{{ $news->published_at }}</p>

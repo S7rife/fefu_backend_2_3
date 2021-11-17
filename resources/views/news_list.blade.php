@@ -23,6 +23,7 @@
     <body>
 
     <h1>Новости</h1>
+    @includeWhen(session('show_hint'), 'components.hint_layout')
         @foreach ($news as $one_news)
             <div style="padding: 20px">
                 <a href="{{ route('news_item', ['slug'=> $one_news->slug]) }}" style="color: chocolate">{{ $one_news->title }}</a>
