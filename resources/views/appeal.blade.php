@@ -42,6 +42,10 @@
                 </ul>
             </div>
         @endif
+        @if ($showMessage === true)
+            <p>feedback value message and</p>
+            <a style="color: darkred" href="{{url()->previous()}}">link to the user's previous location on the site</a>
+        @endif
         <form method="POST" action="{{ route('appeal_stored') }}">
             @csrf
             <div>

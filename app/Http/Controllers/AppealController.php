@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AppealPostRequest;
 use App\Models\Appeal;
 use App\Sanitizers\PhoneSanitizer;
+use Illuminate\Http\Request;
 
 class AppealController extends Controller
 {
@@ -15,9 +16,16 @@ class AppealController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('appeal');
+        $showMessage = false;
+        if ($request->get('accepted')) {
+            if ($request->session()->get('show_message') === true) {
+                $showMessage = true;
+            }
+            $request->session()->put('show_message', false);
+        }
+        return view('appeal', ['showMessage' => $showMessage]);
     }
 
     public function store(AppealPostRequest $request)
@@ -34,6 +42,7 @@ class AppealController extends Controller
         $appeal->email = $validated['email'];
         $appeal->message = $validated['message'];
         $appeal->save();
+        $request->session()->put('appealed', true);
 
         return redirect()->route('appeal_stored')->with('status', '✅(ー○ー)＝ Appeal sent is successfully!＝(ー○ー)✅');
     }
