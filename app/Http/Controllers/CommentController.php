@@ -36,7 +36,7 @@ class CommentController extends Controller
     public function store(Request $request, Post $post): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'text' => 'required|max:150',
+            'text' => 'required|max:150|string',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 422);
@@ -60,7 +60,7 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment): JsonResponse
+    public function show(Comment $comment, Post $post): JsonResponse
     {
         return response()->json(new CommentResource($comment));
     }
@@ -73,10 +73,10 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Comment $comment): JsonResponse
+    public function update(Request $request, Comment $comment, Post $post): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'text' => 'required|max:150',
+            'text' => 'required|max:150|string',
         ]);
 
         if ($validator->fails()) {
@@ -96,7 +96,7 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment): JsonResponse
+    public function destroy(Comment $comment, Post $post): JsonResponse
     {
         $comment->delete();
         return response()->json(['message' => 'Comment removed successfully']);
