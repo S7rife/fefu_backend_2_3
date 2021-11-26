@@ -60,7 +60,7 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment, Post $post): JsonResponse
+    public function show(Post $post, Comment $comment): JsonResponse
     {
         return response()->json(new CommentResource($comment));
     }
@@ -73,7 +73,7 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Comment $comment, Post $post): JsonResponse
+    public function update(Request $request, Post $post, Comment $comment): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'text' => 'required|max:150|string',
@@ -96,7 +96,7 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment, Post $post): JsonResponse
+    public function destroy(Post $post, Comment $comment): JsonResponse
     {
         $comment->delete();
         return response()->json(['message' => 'Comment removed successfully']);
