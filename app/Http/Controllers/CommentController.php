@@ -22,7 +22,7 @@ class CommentController extends Controller
      */
     public function index(Post $post): JsonResponse
     {
-        $comments = $post->comments()->ordered()->paginate(self::PAGE_SIZE);
+        $comments = $post->comments()->with('user')->ordered()->paginate(self::PAGE_SIZE);
         return response()->json(CommentResource::collection($comments));
     }
 
@@ -36,7 +36,7 @@ class CommentController extends Controller
     public function store(Request $request, Post $post): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'text' => 'required|between: 10, 150',
+            'text' => 'required|max:150',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 422);
@@ -60,7 +60,7 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment, Post $post): JsonResponse
+    public function show(Comment $comment): JsonResponse
     {
         return response()->json(new CommentResource($comment));
     }
@@ -73,10 +73,10 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Comment $comment, Post $post): JsonResponse
+    public function update(Request $request, Comment $comment): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'text' => 'sometimes|required|between: 10, 150',
+            'text' => 'required|max:150',
         ]);
 
         if ($validator->fails()) {
@@ -84,7 +84,7 @@ class CommentController extends Controller
         }
 
         $validated = $validator->validated();
-        $comment->text = $validated['title'];
+        $comment->text = $validated['text'];
         $comment->save();
 
         return response()->json(new CommentResource($comment));
@@ -96,7 +96,7 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment, Post $post): JsonResponse
+    public function destroy(Comment $comment): JsonResponse
     {
         $comment->delete();
         return response()->json(['message' => 'Comment removed successfully']);

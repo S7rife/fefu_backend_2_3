@@ -21,7 +21,7 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with('user')->ordered()->paginate(self::PAGE_SIZE);
+        $posts = Post::with('user', 'comments')->ordered()->paginate(self::PAGE_SIZE);
         return response()->json(PostResource::collection($posts));
     }
 
@@ -35,8 +35,8 @@ class PostController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|between: 5, 30',
-            'text' => 'required|between: 250, 500',
+            'title' => 'required|max:30',
+            'text' => 'required|max:500',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 422);
@@ -76,8 +76,8 @@ class PostController extends Controller
     public function update(Request $request, Post $post): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'sometimes|required|between: 5, 30',
-            'text' => 'sometimes|required|between: 250, 500',
+            'title' => 'sometimes|required|max:30',
+            'text' => 'sometimes|required|max:500',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 422);
